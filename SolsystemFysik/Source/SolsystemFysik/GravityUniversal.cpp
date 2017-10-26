@@ -4,8 +4,8 @@
 #include "GameFramework/Actor.h"
 
 TArray<UGravityUniversal*> UGravityUniversal::GravityUniversalCollection = TArray<UGravityUniversal*>();
-const long double UGravityUniversal::SCALE_DOWN_FACTOR = (1);
-const long double UGravityUniversal::GRAVITY_CONSTANT(1);
+const long double UGravityUniversal::SCALE_DOWN_FACTOR = (pow(1*10, 15));
+const long double UGravityUniversal::GRAVITY_CONSTANT(0.00006674); //0.0000006674
 
 // Sets default values for this component's properties
 UGravityUniversal::UGravityUniversal()
@@ -17,22 +17,29 @@ UGravityUniversal::UGravityUniversal()
 
 }
 
+
+UGravityUniversal::~UGravityUniversal()
+{
+	
+}
+
 // Called when the game starts
 void UGravityUniversal::BeginPlay()
 {
+	star_mass = pow(5.972 * 10, 3);
 	Super::BeginPlay();
 
 	GravityUniversalCollection.Add(this);
-
-	m_star_mass = 1000;
-
 }
 
 void UGravityUniversal::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
+	
+
 	if (GravityUniversalCollection.Num() > 0)
+		if(EndPlayReason != EEndPlayReason::Destroyed)
 		GravityUniversalCollection.Empty();
 }
 
@@ -56,6 +63,8 @@ TArray<FVector> UGravityUniversal::CalcResult()
 		// For each GravityUniversalComponent, that isn't us
 		if (GravityUniversalCollection[i] == this)
 			continue;
+		if (GravityUniversalCollection[i] == nullptr)
+			continue;
 
 		distance = CalcDistance(GravityUniversalCollection[i]->GetActorOwner()->GetActorLocation());
 
@@ -73,6 +82,11 @@ TArray<FVector> UGravityUniversal::CalcResult()
 	return result;
 }
 
+void UGravityUniversal::RemoveThis()
+{
+	GravityUniversalCollection.RemoveSingle(this);
+}
+
 long double UGravityUniversal::DistanceSquared(int iteration) const
 {
 	return GRAVITY_CONSTANT * 
@@ -82,7 +96,7 @@ long double UGravityUniversal::DistanceSquared(int iteration) const
 
 long double UGravityUniversal::CalcMass(long double mass) const
 {
-	return m_star_mass * mass;
+	return star_mass * mass;
 }
 
 FVector UGravityUniversal::CalcDistance(FVector location) const
@@ -92,7 +106,7 @@ FVector UGravityUniversal::CalcDistance(FVector location) const
 
 const long double UGravityUniversal::GetStarMass() const
 {
-	return m_star_mass;
+	return star_mass;
 }
 
 const AActor * UGravityUniversal::GetActorOwner() const

@@ -15,6 +15,7 @@ class SOLSYSTEMFYSIK_API UGravityUniversal : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UGravityUniversal();
+	~UGravityUniversal();
 	//UGravityUniversal(float mass);
 
 protected:
@@ -28,10 +29,13 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category = "UniversalMovement")
-		TArray<FVector> CalcResult();
+	TArray<FVector> CalcResult();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CalculateMass")
-		float star_mass;
+	float star_mass;
+	
+	UFUNCTION(BlueprintCallable, Category = "UniversalMovement")
+	void RemoveThis();
 
 	///TODO: Create a static list. Do new stuff. Make blueprints slim again!
 
@@ -39,6 +43,7 @@ private:
 	static const long double SCALE_DOWN_FACTOR;
 	static const long double GRAVITY_CONSTANT;
 	long double m_star_mass;
+
 	static TArray<UGravityUniversal*> GravityUniversalCollection;
 
 	//Takes "this" mass and multiplies it with inputed mass

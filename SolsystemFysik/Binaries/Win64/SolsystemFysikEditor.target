@@ -17,15 +17,15 @@
 	"BuildProducts" :
 	[
 		{
-			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-SolsystemFysik-1159.dll",
+			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-SolsystemFysik-5099.dll",
 			"Type" : "DynamicLibrary"
 		},
 		{
-			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-SolsystemFysik-1159.pdb",
+			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-SolsystemFysik-5099.pdb",
 			"Type" : "SymbolFile"
 		},
 		{
-			"Path" : "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-SolsystemFysik-1159.lib",
+			"Path" : "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-SolsystemFysik-5099.lib",
 			"Type" : "ImportLibrary"
 		},
 		{
