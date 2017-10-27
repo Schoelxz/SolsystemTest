@@ -5,7 +5,7 @@
 
 TArray<UGravityUniversal*> UGravityUniversal::GravityUniversalCollection = TArray<UGravityUniversal*>();
 const long double UGravityUniversal::SCALE_DOWN_FACTOR = (pow(1*10, 15));
-const long double UGravityUniversal::GRAVITY_CONSTANT(0.00006674); //0.0000006674
+const long double UGravityUniversal::GRAVITY_CONSTANT(0.6674); //0.0000006674
 
 // Sets default values for this component's properties
 UGravityUniversal::UGravityUniversal()
