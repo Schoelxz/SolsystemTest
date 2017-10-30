@@ -4,8 +4,7 @@
 #include "GameFramework/Actor.h"
 
 TArray<UGravityUniversal*> UGravityUniversal::GravityUniversalCollection = TArray<UGravityUniversal*>();
-const long double UGravityUniversal::SCALE_DOWN_FACTOR = (pow(1*10, 15));
-const long double UGravityUniversal::GRAVITY_CONSTANT(0.6674); //0.0000006674
+const long double UGravityUniversal::GRAVITY_CONSTANT(0.6674); //0,00000000006674 * (10^10)
 
 // Sets default values for this component's properties
 UGravityUniversal::UGravityUniversal()
@@ -13,10 +12,7 @@ UGravityUniversal::UGravityUniversal()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-
 }
-
 
 UGravityUniversal::~UGravityUniversal()
 {
@@ -35,8 +31,6 @@ void UGravityUniversal::BeginPlay()
 void UGravityUniversal::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-
-	
 
 	if (GravityUniversalCollection.Num() > 0)
 		if(EndPlayReason != EEndPlayReason::Destroyed)
@@ -59,22 +53,22 @@ TArray<FVector> UGravityUniversal::CalcResult()
 	TArray<FVector> result;
 	for (int i = 0; i < GravityUniversalCollection.Num(); i++)
 	{
-
 		// For each GravityUniversalComponent, that isn't us
 		if (GravityUniversalCollection[i] == this)
 			continue;
 		if (GravityUniversalCollection[i] == nullptr)
 			continue;
 
+		//calculates r. r = star1 position - star2 position. distance = r
 		distance = CalcDistance(GravityUniversalCollection[i]->GetActorOwner()->GetActorLocation());
 
-		//forceResult = DistanceSquared(i) * GetActorOwner()->GetActorLocation().Normalize();
-
+		//F = G * ((m1*m2) / r^2)
 		force = GRAVITY_CONSTANT *
 			((CalcMass(GravityUniversalCollection[i]->GetStarMass())) /
 			(pow(CalcDistance(GravityUniversalCollection[i]->GetActorOwner()->GetActorLocation()).Size(), 2)));
 
-		result.Add(distance.GetSafeNormal() * force);
+		//Add a new force result into the array.
+		result.Add(distance.GetSafeNormal() * force); //Force * direction, to get force towards the right direction
 	}
 	
 	//Normalizes distance difference and multiplies it with force
